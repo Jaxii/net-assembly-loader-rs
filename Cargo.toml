@@ -14,7 +14,7 @@ win32-error = "0.9.0"
 obfstr = "0.4.1"
 reqwest = {version = "0.11.11", features = ["blocking"]}
 base64 = "0.20.0-alpha.1"
-
+massayo = { git = "https://github.com/thiagopeixoto/massayo" }
 [profile.release]
 lto = "on"
 codegen-units = 1
